@@ -2,8 +2,10 @@ package com.example.androiduitesting;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     // Declare the variables so that you will be able to reference it later.
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout nameField;
     ArrayAdapter<String> cityAdapter;
     ArrayList<String> dataList;
+    static String selectedCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
         cityList = findViewById(R.id.city_list);
 
-        //String []cities ={"Edmonton", "Vancouver", "Moscow", "Sydney", "Berlin", "Vienna", "Tokyo", "Beijing", "Osaka", "New Delhi"};
+//        String []cities ={"Edmonton", "Vancouver", "Moscow", "Sydney", "Berlin", "Vienna", "Tokyo", "Beijing", "Osaka", "New Delhi"};
 
         dataList = new ArrayList<>();
 
-        //dataList.addAll(Arrays.asList(cities));
+//        dataList.addAll(Arrays.asList(cities));
 
         cityAdapter = new ArrayAdapter<>(this, R.layout.content, dataList);
 
@@ -64,5 +68,17 @@ public class MainActivity extends AppCompatActivity {
                 cityAdapter.clear();
             }
         });
+        cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedCity = cityAdapter.getItem(i);
+                Intent intent = new Intent(MainActivity.this, ShowActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public static String getSelectedCity(){
+        return selectedCity;
     }
 }
